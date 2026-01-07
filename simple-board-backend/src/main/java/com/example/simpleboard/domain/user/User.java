@@ -33,4 +33,9 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

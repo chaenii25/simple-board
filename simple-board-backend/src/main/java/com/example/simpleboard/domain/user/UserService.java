@@ -11,7 +11,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserResponse registerUser(UserCreateRequest req) {
+    public UserResponse register(UserCreateRequest req) {
         if(userRepository.existsByEmail(req.email())) {
             throw new IllegalArgumentException("이미 사용중인 이메일입니다!");
         }

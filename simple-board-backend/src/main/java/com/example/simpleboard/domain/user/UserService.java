@@ -1,5 +1,7 @@
 package com.example.simpleboard.domain.user;
 
+import com.example.simpleboard.dto.user.UserCreateRequest;
+import com.example.simpleboard.dto.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

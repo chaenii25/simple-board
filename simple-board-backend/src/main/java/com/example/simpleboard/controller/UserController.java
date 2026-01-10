@@ -1,7 +1,7 @@
 package com.example.simpleboard.controller;
 
-import com.example.simpleboard.domain.user.UserCreateRequest;
-import com.example.simpleboard.domain.user.UserResponse;
+import com.example.simpleboard.dto.user.UserCreateRequest;
+import com.example.simpleboard.dto.user.UserResponse;
 import com.example.simpleboard.domain.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

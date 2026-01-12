@@ -15,7 +15,7 @@ public class UserService {
     @Transactional
     public UserResponse register(UserCreateRequest req) {
         if(userRepository.existsByEmail(req.email())) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다!");
+            throw new EmailAlreadyExistsException("이미 사용중인 이메일입니다!");
         }
 
         User user = new User(req.email(), req.password());

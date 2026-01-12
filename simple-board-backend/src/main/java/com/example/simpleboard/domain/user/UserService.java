@@ -3,6 +3,7 @@ package com.example.simpleboard.domain.user;
 import com.example.simpleboard.dto.user.UserCreateRequest;
 import com.example.simpleboard.dto.user.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponse register(UserCreateRequest req) {
@@ -18,7 +20,8 @@ public class UserService {
             throw new EmailAlreadyExistsException("이미 사용중인 이메일입니다!");
         }
 
-        User user = new User(req.email(), req.password());
+        String encoded = passwordEncoder.encode(req.password());
+        User user = new User(req.email(), encoded);
         User saved =  userRepository.save(user);
 
         return new UserResponse(saved.getId(), saved.getEmail(), saved.getCreatedAt());

@@ -18,6 +18,6 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@Valid @RequestBody UserCreateRequest req) {
-        return userService.registerUser(req);
+        return userService.register(req);
     }
 }

@@ -25,6 +25,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnexpected(Exception e) {
-        return ErrorResponse.of("INTERNAL_ERROR", e.getMessage());
+        return ErrorResponse.of("INTERNAL_ERROR", "서버 오류가 발생했습니다.");
     }
 }

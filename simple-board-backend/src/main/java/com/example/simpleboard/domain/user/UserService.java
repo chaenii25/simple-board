@@ -1,5 +1,7 @@
 package com.example.simpleboard.domain.user;
 
+import com.example.simpleboard.dto.auth.LoginRequest;
+import com.example.simpleboard.dto.auth.LoginResponse;
 import com.example.simpleboard.dto.user.UserCreateRequest;
 import com.example.simpleboard.dto.user.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,17 @@ public class UserService {
         User saved =  userRepository.save(user);
 
         return new UserResponse(saved.getId(), saved.getEmail(), saved.getCreatedAt());
+    }
+
+    @Transactional(readOnly = true)
+    public LoginResponse login(LoginRequest req) {
+        User user = userRepository.findByEmail(req.email())
+                .orElseThrow(() -> new UserNotFoundException("존재하지않는 이메일입니다."));
+
+        if (!passwordEncoder.matches(req.password(), user.getPassword())) {
+            throw new InvalidPasswordException("비밀번호가 올바르지 않습니다.");
+        }
+
+        return new LoginResponse(user.getId(), user.getEmail());
     }
 }

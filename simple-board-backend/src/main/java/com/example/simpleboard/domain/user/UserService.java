@@ -4,6 +4,7 @@ import com.example.simpleboard.dto.auth.LoginRequest;
 import com.example.simpleboard.dto.auth.LoginResponse;
 import com.example.simpleboard.dto.user.UserCreateRequest;
 import com.example.simpleboard.dto.user.UserResponse;
+import com.example.simpleboard.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     @Transactional
     public UserResponse register(UserCreateRequest req) {
@@ -38,6 +40,7 @@ public class UserService {
             throw new InvalidPasswordException("비밀번호가 올바르지 않습니다.");
         }
 
-        return new LoginResponse(user.getId(), user.getEmail());
+        String token = jwtProvider.createAccessToken(user.getId(),  user.getEmail());
+        return new LoginResponse(token);
     }
 }

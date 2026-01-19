@@ -13,4 +13,6 @@ spring:
   h2:
     console:
       enabled: true
-
+jwt:
+  secret: "change-this-to-a-long-secret-string-at-least-32-chars"
+  access-token-exp-min: 60

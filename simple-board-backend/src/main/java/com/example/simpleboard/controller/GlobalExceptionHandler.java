@@ -4,8 +4,11 @@ import com.example.simpleboard.domain.user.EmailAlreadyExistsException;
 import com.example.simpleboard.domain.user.InvalidPasswordException;
 import com.example.simpleboard.domain.user.UserNotFoundException;
 import com.example.simpleboard.dto.ErrorResponse;
+import com.example.simpleboard.security.JwtPrincipal;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -40,5 +43,10 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED) //401
     public ErrorResponse handleInvalidPassword(InvalidPasswordException e) {
         return ErrorResponse.of("UNAUTHORIZED", e.getMessage());
+    }
+
+    @GetMapping("/me")
+    public JwtPrincipal me(@AuthenticationPrincipal JwtPrincipal principal) {
+        return principal;
     }
 }

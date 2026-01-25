@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -29,6 +31,34 @@ public class PostService {
                 saved.getContent(),
                 user.getId(),
                 saved.getCreatedAt()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponse> findAll() {
+        return postRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(post -> new PostResponse(
+                        post.getId(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getAuthor().getId(),
+                        post.getCreatedAt()
+                ))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponse findById(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+
+        return new PostResponse(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getAuthor().getId(),
+                post.getCreatedAt()
         );
     }
 }

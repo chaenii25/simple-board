@@ -5,6 +5,7 @@ import com.example.simpleboard.domain.post.PostRepository;
 import com.example.simpleboard.domain.post.PostService;
 import com.example.simpleboard.dto.post.PostCreateRequest;
 import com.example.simpleboard.dto.post.PostResponse;
+import com.example.simpleboard.dto.post.PostUpdateRequest;
 import com.example.simpleboard.security.JwtPrincipal;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,22 @@ public class PostController {
     @GetMapping("/{id}")
     public PostResponse detail(@PathVariable Long id){
         return postService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PostResponse update(
+            @PathVariable Long id,
+            @Valid @RequestBody PostUpdateRequest req,
+            @AuthenticationPrincipal JwtPrincipal principal
+            ) {
+        return postService.update(id, req, principal.userId());
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Long id,
+            @AuthenticationPrincipal JwtPrincipal principal
+            ) {
+        postService.delete(id, principal.userId());
     }
 }
